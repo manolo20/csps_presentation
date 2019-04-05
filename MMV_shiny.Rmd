@@ -1,0 +1,128 @@
+---
+title: "Canadian Consumer Price Index (CPI) Dashboard built using R Shiny" 
+subtitle: "Uros 2018"
+author: "Manolo Malaver-Vojvodic <br> Statistics Canada" 
+runtime: shiny
+output:
+  ioslides_presentation:
+    css: STCback.css
+    self_contained: yes
+    transition: slower
+    widescreen: yes
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r warning=FALSE, message=FALSE}
+
+library(shiny)
+library(shinydashboard)
+library(dplyr)
+library(DT)
+library(plotly)
+library(ggplot2)
+library(openxlsx)
+library(treemap)
+library(gridBase)
+
+
+
+```
+## Executive Summary 
+
+
+
+- Objective of the Shiny app
+- Shiny app structure
+- Sharing and hosting 
+- Moving forward
+- Questions
+
+
+## Objective of the Shiny app 
+<br>
+<br>
+The <span style="color:blue">**Consumer Price Index (CPI)**</span> dashboard aims to provide users a friendly graphic tool that can be used to compare the evolution of the prices of the 282 items of the basket of goods and services. 
+
+## Objective of the Shiny app 
+
+The shiny application enables users:
+
+- to select and download CPI data from 3 different datasets. 
+
+- to visualize a hover plot to compare the evolution of prices of the 282 items.
+
+- to compare the percentage contribution of these items to the overall CPI. 
+
+- to find the Canadian dollar value of a given year in terms of another year.
+
+
+## Consumer Price Index
+
+
+## Price weights
+
+```
+
+## Calculator 
+
+```
+
+## Treemap
+
+
+
+## Moving forward 
+
+-	Add a hover [price kaleidoscope](https://service.destatis.de/Voronoi/PriceKaleidoscope.svg) that visualizes the price weights.
+
+- Add a button to load the most updated data from the Statistics Canada website.
+
+-	Add a calculator based on monthly user expenses that calculates a *personal CPI* which can be compared in a plot with the real CPI. 
+
+- Add [animated plots](https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen) where users can analyze CPI data against other economic variables (GDP, income, population growth).
+
+
+## Moving forward 
+
+
+<div class="midcenter" >
+  <img src="./images/destatis.png" height="400px" width="800px" ></img>
+</div>
+
+
+## Sharing and hosting 
+
+
+The latest code of this app is hosted in [github](https://github.com/manolo20/cpi_dashboard_StatCan/)
+
+
+```{r, eval = FALSE, echo = TRUE} 
+
+shiny::runGithub('manolo20/cpi_dashboard_Statcan')
+
+```
+
+The dependencies used were: shiny, shinydashboard, DT, dplyr, ggplot2, plotly, treemap, CANSIM2R, openxlsx. The app is currently hosted at [shinyapps.io](https://kunov.shinyapps.io/consumer_price_index/) and at [AWS](http://18.222.224.189:3838/cpi_dashboard_StatCan/) . 
+
+Developers of the application: 
+
+*Atai Akunov*, *Liam Peet-Pare* and *Manolo Malaver-Vojvodic*.
+
+
+
+## Questions 
+
+
+For any further questions or suggestions please contact me by e-mail: <br><br> manolo.malaver-vojvodic@canada.ca.
+
+Finally, I would like to thank you the vast open source R community and to the uRos2018 conference organizers and participants for this opportunity. 
+
+Thank you.
+
+<div class="midcenter" >
+  <img src="./images/STC100.png" ></img>
+</div>
