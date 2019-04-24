@@ -1,7 +1,7 @@
 ---
-title: "Canadian Consumer Price Index (CPI) Dashboard built using R Shiny" 
-subtitle: "Uros 2018"
-author: "Manolo Malaver-Vojvodic <br> Statistics Canada" 
+title: "Introduction to the Shiny package" 
+subtitle: "Manolo Malaver-Vojvodic <br> Consumer Prices Division <br> Statistics Canada"
+author: "Delivering insight through data for a better Canada" 
 runtime: shiny
 output:
   ioslides_presentation:
@@ -48,6 +48,8 @@ gdp$time1<-as.Date(paste((gdp$time), "-01", sep=""))
 
 gdp$time1<-as.Date(gdp$time1)
 
+##![](images/basic-widgets.png)
+
 ```
 
 ## Executive Summary 
@@ -64,16 +66,22 @@ gdp$time1<-as.Date(gdp$time1)
 
 
 
-The <img src="images/shiny-hex.png" height="50px" width="50px" /> library is a RStudio library that helps to create interactive web applications without the necessity to know any HTML, CSS or JavaScript.
+The <img src="images/shiny-hex.png" height="50px" width="50px" /> library is a open source R package from RStudio that allows users to build interactive web applications without the necessity to know any HTML, CSS or JavaScript.
 
-It was developed by Joe Cheng from RStudio.
+The <img src="images/shiny-hex.png" height="50px" width="50px" /> library has extensive prebuilt widgets to create beautiful, responsive, and powerful applications with minimal effort 
+
+It was developed mainly by Joe Cheng from RStudio.
+
+## Benefits
 
 The main benefits of using shiny over other tools are:
 
 1. Interactivity.
 2. Easy to share.
 3. Relatively easy to develop (compared to other programing languages). 
-4. Open source library. (RStudio, stackoverflow, GitHub)
+4. Open source library with many excelent tutorials. (RStudio, StackOverflow, GitHub)
+5. Fully customizable with HTML, CSS and/or JavaScript.
+
 
 ## Installing shiny
 
@@ -89,6 +97,8 @@ and then to load the library we just call:
 library("shiny")
 ```
 
+The current version is 1.3.2.
+
 ## Structure
 
 A folder contating a basic shiny application is structured in two different ways:
@@ -96,15 +106,31 @@ A folder contating a basic shiny application is structured in two different ways
 1. A folder that contains a file named myapp.R which includes the ui and server functions:
 
 ```
-myapp
-│   app.R
+myapp              Name of the app
+│   app.R             
 └───data
-│   └───data.csv
+│   └───data.csv   Data to use in the app
 └───images
-    └───image.jpg
+    └───image.jpg  Image to use in the app  
 ```
 
 ## Structure
+
+The app.R file will contain a ui and server functions:
+
+```{r, eval=FALSE, echo = TRUE}
+library("shiny")
+
+ui <- fluidPage()
+
+server <- function(input, output){}
+
+shinyApp(ui = ui, server = server)
+
+```
+
+## Structure
+
 
 2. A folder that includes a ui.R and a server.R files:
 
@@ -118,9 +144,38 @@ myapp
     └───image.jpg
 ```
 
+runApp("C:/myapp")
+
+## Structure
+
+<img src="images/myapp_ui_server.PNG" height="400px" width="800px" />
+
+## Example of a shiny app
+```{r, eval=TRUE, echo = FALSE}
+
+library(shiny)
+
+ui <- fluidPage(
+  numericInput(inputId = "number", "Sample size", value = 25),
+  plotOutput(outputId = "hist")
+)
+
+server <- function(input, output) {
+  output$hist <- renderPlot({
+    hist(rnorm(input$number))
+  })
+  
+}
+
+shinyApp(ui=ui, server=server)
+```
+
+
+
+
 ## What is a ui?
 
-The ui stands for **user interface** and it is the skeleton or layout of an application, for example, where a dropdown menu should be located, or which options a radio button menu should have, or the range of a slidebar. 
+The ui stands for **user interface** and it is the skeleton or layout of an application. The ui is where a dropdown menu, radio buttons, a slidebar should be located. 
 
 The ui is written using shiny functions and its output is raw HTML code.
 
@@ -129,13 +184,80 @@ The main three functions which define the various regions of the ui are:
 - sidebarPanel, and 
 - mainPanel 
 
+## What is a ui?
+
+The ui is a HTML document:
+```{r, eval=TRUE, echo = TRUE}
+fluidPage(textInput("input_data","Select a province:"))
+# <div class="container-fluid">
+#   <div class="form-group shiny-input-container">
+#     <label for="input_data">Select a province:</label>
+#     <input id="input_data" type="text" class="form-control" value=""/>
+#   </div>
+# </div>
+```
+
+## Types of layout of a ui:
+
+<img src="images/layout1.PNG" height="400px" width="500px" />
+
+## Types of layout of a ui:
+
+<img src="images/layout2.PNG" height="400px" width="800px" />
+
+## Types of layout of a ui:
+
+<img src="images/layout3.PNG" height="400px" width="800px" />
+
+## Example
+
+```{r, eval=FALSE, echo = TRUE}
+library("shiny")
+ui <- fluidPage(
+  titlePanel("Hello Shiny!"), # App title ----
+  sidebarLayout( #Sidebar layout with input and outputs 
+    sidebarPanel( # Sidebar panel for inputs ----
+      sliderInput(inputId = "bins", label = "Number of bins:",
+                  min = 1, max = 50, value = 30)
+    ),
+    mainPanel(# Main panel for displaying outputs ----
+      plotOutput(outputId = "distPlot")
+    )
+  )
+)
+
+```
+
 ## What is a server?
 
-Now let’s define a skeletal server implementation. To do this we define a server function that accepts two parameters: input and output.
+The server is a function that builds and rebuilds the R objects (plots, dataframes, images, text, datasets) specified in the ui. It accepts two parameters: input and output.
 
-The server function allows users to interact with the application by selecting specific inputs in the ui in order to obtain different results which can be in the form of plots, datasets, mathematical calculations, words, images. 
+The server function allows users to interact with the application by rebuilding specific objects specified through the ui.
 
-The UI is responsible for creating specific controls that a user can iteract with, while the server is translating the specific options selected in the ui into an actual plot or data.
+##Example
+
+```{r, eval=FALSE, echo = TRUE}
+server <- function(input, output) {
+  # 1. It is "reactive" and therefore should be automatically
+  #    re-executed when inputs (input$bins) change
+  # 2. Its output type is a plot
+  output$distPlot <- renderPlot({
+
+    x    <- faithful$waiting
+    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+    hist(x, breaks = bins, col = "#75AADB", border = "white",
+         xlab = "Waiting time to next eruption (in mins)",
+         main = "Histogram of waiting times")
+
+    })
+```
+
+## User interface (ui) vs server
+
+The ui is responsible for creating specific controls that a user can iteract with, while the server is translating the specific options selected in the ui into an actual plot, data, image, table, etc.
+
+
 
 ## Layout of a shiny application
 
@@ -146,12 +268,18 @@ The UI is responsible for creating specific controls that a user can iteract wit
 <img src="images/basic-widgets.png" height="400px" width="800px" />
 
 
-## Examples
-![](images/basic-widgets.png)
+
+
+##Shiny examples
+
 Now let's explore some of the examples that one can create using shiny:
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, echo = TRUE}
 library(shiny)
+
+#In order to see all the examples:
+runexample()
+
 runExample("01_hello")
 runExample("03_reactivity")
 runExample("05_sliders")
@@ -163,9 +291,9 @@ runExample("09_upload")
 
 Steps:
 
-1. Have an idea on which data we want to use and how we want to present it.
+1. Have an idea on which data to use and how to present it.
 2. Get the data (webscraping, accesing a database).
-3. Clean the data.
+3. Clean the data (Does the dataset contain NAs? Are strings saved as factors? Are integers saved as strings?).
 4. Create a shiny application.
 5. Share the application.
 6. Listen to suggestions from users.
@@ -173,11 +301,13 @@ Steps:
 
 ## 1) Idea:
 
-We will create a dashboard that visualizes GDP figures at the national level for all published NAICS (North American Industry Classification) industries.
+In this excercise, we will create a dashboard that visualizes Canadian GDP figures at the national level for all published NAICS (North American Industry Classification) industries.
+
+We will use Table 36-10-0434-03
 
 ## 2) Getting the data:
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, echo = TRUE}
 
 library(CANSIM2R)
 
@@ -226,6 +356,8 @@ typeof(gdp$value)
 ```
 
 
+##Shiny app
+
 ```{r, eval=TRUE}
 # Define UI for app that analyzes the GDP at the national level for all NAICS industries ----
 
@@ -259,7 +391,7 @@ ui <- fluidPage(
   )
 )
 
-# Define server logic required to draw a histogram ----
+# Define server logic required to draw a plot ----
 server <- function(input, output) ({
   
   })
@@ -346,10 +478,11 @@ server <- function(input, output) {
 
 ## 5) Sharing the application:
 
-- shinyapps.io
-- Ocean Digital
-- Amazon Web Services
-- Microsoft Azure
+- Shiny hosting on shinyapps.io
+- Ocean Digital (OD)
+- Amazon Web Services (AWS)
+- Microsoft Azure 
+- Shiny Server
 
 
 

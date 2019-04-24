@@ -17,28 +17,32 @@ slide {
 slide.title-slide hgroup h1{
 	/*font-weight:bold;*/
 	font-size:25pt;
-	color:#BB933B;  /* Golden colour*/
+	color:#000000;  /* Golden colour*/
 	margin-left: -50px;
 	margin-Right: 500px;
-	bottom:50%; /* 80*/
-	margin-Bottom: 105px;
+	bottom:80%; /* 80*/
+	margin-Bottom: 60px;
 }
-
 
 
 slide.title-slide hgroup h2{
 	color:#15334F;   /* Blue colour*/
+	letter-spacing:1.5px;
 	font-size:14pt;
-	font-style: normal;
+	line-height:18pt;
+	margin-Bottom: 60px;
 	/*font-weight:bold;*/
+	/*font-style: normal;*/
 	/*margin-Bottom: 100px;*/
 }
 
 slide.title-slide p{
-	color:#15334F;   /* Blue colour*/
+	color:#000000;   /* Blue colour*/
 	font-size:12pt;
 	font-weight:bold;
-	margin-Bottom: 5px; /* 100px*/
+	margin-Bottom: 10px; /* 100px*/
+	text-align: center;
+	margin-left: -60px;
 }
 
 
