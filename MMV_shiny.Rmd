@@ -211,7 +211,8 @@ The main three functions which define the various regions of the ui are:
 
 ## Layout of a shiny application
 
-![](images/layout.png)
+![](images/layout.PNG)
+
 
 ## What is a ui?
 
@@ -397,7 +398,7 @@ typeof(gdp$value)
 ## *Reminder:
 
 Before starting to code a shiny app, let's remember its layout
-![](images/layout.png)
+![](images/layout.PNG)
 
 ## User interface (ui)
 ```{r, eval=FALSE, echo = TRUE}
