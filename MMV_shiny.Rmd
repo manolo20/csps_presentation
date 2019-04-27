@@ -39,7 +39,7 @@ gdp_raw <- getCANSIM(36100434, raw=TRUE)
 # Cleaning the data:
 gdp <- gdp_raw %>% 
   filter(Seasonal.adjustment %in% "Seasonally adjusted at annual rates")%>%
-  select("time"="X.U.FEFF.REF_DATE",
+  select("time"="REF_DATE",            #use "X.U.FEFF.REF_DATE" for windows
          "naics"="North.American.Industry.Classification.System..NAICS.",
          "value"="VALUE", 
          "prices"="Prices") 
