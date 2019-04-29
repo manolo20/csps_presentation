@@ -1,0 +1,12 @@
+name: MMV_CSPS_shiny
+title: MMV_CSPS_shiny
+username:
+account: mmala027
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 896490
+bundleId: 2045492
+url: https://mmala027.shinyapps.io/MMV_CSPS_shiny/
+when: 1556496198.2783
+asMultiple: FALSE
+asStatic: FALSE
